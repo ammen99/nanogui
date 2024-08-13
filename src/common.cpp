@@ -87,7 +87,7 @@ void mainloop(float refresh) {
     if (mainloop_active)
         throw std::runtime_error("Main loop is already running!");
 
-    auto mainloop_iteration = []() {
+    auto mainloop_iteration = [refresh]() {
         int num_screens = 0;
 
         #if defined(EMSCRIPTEN)
@@ -130,7 +130,7 @@ void mainloop(float refresh) {
 
         #if !defined(EMSCRIPTEN)
             /* Wait for mouse/keyboard or empty refresh events */
-            glfwWaitEvents();
+            glfwWaitEventsTimeout(refresh / 1000.0);
         #endif
     };
 
