@@ -197,6 +197,8 @@ void mainloop(float refresh) {
 void async(const std::function<void()> &func) {
     std::lock_guard<std::mutex> guard(m_async_mutex);
     m_async_functions.push_back(func);
+    // Unblock main loop
+    glfwPostEmptyEvent();
 }
 
 void leave() {
